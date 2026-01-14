@@ -1,16 +1,16 @@
 {% set version = "12.13.0" %}
-{% set sha256 = "f4b34cdcc1b34b8fe6f44d1f4b05cba30600e9be24ae50ccaab229cd4facda3c" %}
+{% set name = "azure-storage-files-datalake" %}
 
 package:
-  name: azure-storage-files-datalake-cpp
+  name: {{ name }}-cpp
   version: {{ version }}
 
 source:
-  url: https://github.com/Azure/azure-sdk-for-cpp/archive/refs/tags/azure-storage-files-datalake_{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://github.com/Azure/azure-sdk-for-cpp/archive/refs/tags/{{ name }}_{{ version }}.tar.gz
+  sha256: f4b34cdcc1b34b8fe6f44d1f4b05cba30600e9be24ae50ccaab229cd4facda3c
 
 build:
-  number: 1
+  number: 0
   run_exports:
     - {{ pin_subpackage("azure-storage-files-datalake-cpp", max_pin="x.x.x") }}
 
@@ -22,10 +22,9 @@ requirements:
     - cmake
     - ninja
   host:
-    # The azure-sdk-for-cpp libs are pinned in conda-forge-pinning-feedstock
-    - azure-core-cpp
-    - azure-storage-common-cpp
-    - azure-storage-blobs-cpp
+    - azure-core-cpp 1.16.1
+    - azure-storage-common-cpp 12.11.0
+    - azure-storage-blobs-cpp 12.15.0
 
 test:
   requires:
@@ -42,10 +41,37 @@ test:
 
     # headers
     - test -f ${PREFIX}/include/azure/storage/files/datalake/datalake_directory_client.hpp          # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake.hpp                                    # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/datalake_file_client.hpp               # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/datalake_file_system_client.hpp        # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/datalake_lease_client.hpp              # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/datalake_options.hpp                   # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/datalake_path_client.hpp               # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/datalake_responses.hpp                 # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/datalake_sas_builder.hpp               # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/datalake_service_client.hpp            # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/dll_import_export.hpp                  # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/rest_client.hpp                        # [unix]
+    - test -f ${PREFIX}/include/azure/storage/files/datalake/rtti.hpp                               # [unix]
     - if not exist %LIBRARY_INC%\azure\storage\files\datalake\datalake_directory_client.hpp exit 1  # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake.hpp exit 1                            # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\datalake_file_client.hpp exit 1       # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\datalake_file_system_client.hpp exit 1  # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\datalake_lease_client.hpp exit 1      # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\datalake_options.hpp exit 1           # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\datalake_path_client.hpp exit 1       # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\datalake_responses.hpp exit 1         # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\datalake_sas_builder.hpp exit 1       # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\datalake_service_client.hpp exit 1    # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\dll_import_export.hpp exit 1          # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\rest_client.hpp exit 1                # [win]
+    - if not exist %LIBRARY_INC%\azure\storage\files\datalake\rtti.hpp exit 1                       # [win]
 
     # CMake metadata
-    - test -f ${PREFIX}/share/azure-storage-files-datalake-cpp/azure-storage-files-datalake-cppTargets.cmake                     # [unix]
+    - test -f ${PREFIX}/share/azure-storage-files-datalake-cpp/azure-storage-files-datalake-cppTargets.cmake # [unix]
+    - test -f ${PREFIX}/share/azure-storage-files-datalake-cpp/azure-storage-files-datalake-cppConfig.cmake # [unix]
+    - test -f ${PREFIX}/share/azure-storage-files-datalake-cpp/azure-storage-files-datalake-cppConfigVersion.cmake # [unix]
+    - test -f ${PREFIX}/share/azure-storage-files-datalake-cpp/azure-storage-files-datalake-cppTargets-release.cmake # [unix]
     - if not exist %LIBRARY_PREFIX%\share\azure-storage-files-datalake-cpp\azure-storage-files-datalake-cppTargets.cmake exit 1  # [win]
 
     # CMake find_package()
@@ -53,7 +79,7 @@ test:
     - cmake %CMAKE_ARGS% -G Ninja -S %RECIPE_DIR% -B test-find-package  # [win]
 
 about:
-  home: https://github.com/Azure/azure-sdk-for-cpp/
+  home: https://github.com/Azure/azure-sdk-for-cpp
   summary: Azure Storage Files Data Lake Client Library for C++
   description: >-
     Azure Data Lake includes all the capabilities required to make it easy for developers, data scientists, and analysts to store data of any size, shape, and speed, and do all types of processing and analytics across platforms and languages. It removes the complexities of ingesting and storing all of your data while making
@@ -63,8 +89,8 @@ about:
   license_file:
     - LICENSE.txt
     - sdk/storage/azure-storage-files-datalake/NOTICE.txt
-  doc_url: https://azure.github.io/azure-sdk-for-cpp/
-  dev_url: https://github.com/Azure/azure-sdk-for-cpp/tree/main/sdk/storage/azure-storage-files-datalake/
+  doc_url: https://azure.github.io/azure-sdk-for-cpp
+  dev_url: https://github.com/Azure/azure-sdk-for-cpp/tree/main/sdk/storage/azure-storage-files-datalake
 
 extra:
   recipe-maintainers:
