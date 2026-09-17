@@ -1,7 +1,6 @@
 {% set version = "12.16.0" %}
 {% set name = "azure-storage-files-datalake" %}
 
-# https://github.com/Azure/azure-sdk-for-cpp/blob/main/sdk/storage/azure-storage-files-datalake/vcpkg/vcpkg.json
 package:
   name: {{ name }}-cpp
   version: {{ version }}
@@ -15,6 +14,7 @@ build:
   run_exports:
     - {{ pin_subpackage("azure-storage-files-datalake-cpp", max_pin="x.x.x") }}
 
+# https://github.com/Azure/azure-sdk-for-cpp/blob/main/sdk/storage/azure-storage-files-datalake/vcpkg/vcpkg.json
 requirements:
   build:
     - {{ compiler("cxx") }}
