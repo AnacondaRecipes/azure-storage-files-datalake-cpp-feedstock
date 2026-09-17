@@ -1,0 +1,14 @@
+# Need to prvent environment resolving error for OSX
+# The following packages are incompatible
+# ├─ azure-storage-blobs-cpp >=12.18.0,<12.18.1.0a0 * is installable and it requires
+# │  └─ libcxx >=22 *, which can be installed;
+# └─ clangxx_osx-arm64 =20 * is not installable because it requires
+#    └─ clangxx_impl_osx-arm64 [==20.1.8 h4363b87_1|==20.1.8 he123483_0], which requires
+#       └─ clangxx =20 *, which requires
+#          └─ libcxx-devel =20.1 * but there are no viable options
+#             ├─ libcxx-devel 20.1.8 would require
+#             │  └─ libcxx ==20.1.8 h8869778_0, which conflicts with any installable versions previously reported;
+#             └─ libcxx-devel 20.1.8 would require
+#                └─ libcxx >=20.1.8,<22 *, which conflicts with any installable versions previously reported.
+cxx_compiler_version: # [osx]
+  - "22"              # [osx]
