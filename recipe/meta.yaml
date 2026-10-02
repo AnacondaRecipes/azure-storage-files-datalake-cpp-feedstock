@@ -10,19 +10,20 @@ source:
   sha256: 9da06bb9ceddd11f63a8d8f0dceefe9fe4ec8f826544c3cbf358a59be93d9f92
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage("azure-storage-files-datalake-cpp", max_pin="x.x.x") }}
 
 # https://github.com/Azure/azure-sdk-for-cpp/blob/main/sdk/storage/azure-storage-files-datalake/vcpkg/vcpkg.json
 requirements:
   build:
-    - {{ compiler("cxx") }}
-    - {{ stdlib("c") }}
+    - {{ compiler('cxx') }}
+    - {{ stdlib('c') }}
     - cmake
     - ninja
   host:
-    - azure-core-cpp 1.16.3
+    # pin to conda_build_config.yaml once it woulde be there
+    - azure-core-cpp 1.16.4
     - azure-storage-common-cpp 12.14.0
     - azure-storage-blobs-cpp 12.18.0
 
@@ -95,3 +96,6 @@ extra:
     - jdblischak
     - jjerphan
     - Shelnutt2
+  skip-lints:
+    # home and dev url are reachable
+    - reachable_url
