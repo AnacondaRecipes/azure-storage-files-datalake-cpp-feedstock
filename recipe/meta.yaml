@@ -96,3 +96,6 @@ extra:
     - jdblischak
     - jjerphan
     - Shelnutt2
+  skip-lints:
+    # home and dev url are reachable
+    - reachable_url
